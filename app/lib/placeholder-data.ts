@@ -6,6 +6,7 @@ const events = [
       images: [
         '/e1image1.jpeg','/e1image2.jpeg','/e1image3.jpeg','/e1image4.jpeg','/e1image5.jpeg'
       ],
+      date: '09-09-2014'
     },
     {
       id: '550e8400-e29b-41d4-a716-446655440001',
@@ -14,6 +15,7 @@ const events = [
       images: [
         '/e2image1.jpg','/e2image2.jpg','/e2image3.jpg','/e2image4.jpg'
       ],
+      date: '09-09-2014'
     },
     {
         id: '550e8400-e29b-41d4-a716-446655440002',
@@ -22,6 +24,7 @@ const events = [
       images: [
         '/e3image1.jpg','/e3image2.jpg','/e3image3.jpg'
       ],
+      date: '09-09-2014'
     },
     {
         id: '550e8400-e29b-41d4-a716-446655440003',
@@ -30,6 +33,7 @@ const events = [
         images: [
           '/e4image1.jpg','/e4image2.jpg','/e4image.jpg3','/e4image4.jpg'
         ],
+        date: '09-09-2014'
       },
       {
         id: '550e8400-e29b-41d4-a716-446655440004',
@@ -38,6 +42,7 @@ const events = [
         images: [
           '/e5image1.jpg','/e5image2.jpg','/e5image3.jpg','/e5image4.jpg','/e5image5.jpg','/e5image6.jpg','/e5image7.jpg','/e5image8.jpg','/e5image9.jpg'
         ],
+        date: '09-09-2014'
       },
       {
         id: '550e8400-e29b-41d4-a716-446655440005',
@@ -46,6 +51,7 @@ const events = [
         images: [
           '/e6image1.jpg','/e6image2.jpg','/e6image3.jpg','/e6image4.jpg'
         ],
+        date: '09-09-2014'
       },
       {
         id: '550e8400-e29b-41d4-a716-446655440006',
@@ -54,6 +60,7 @@ const events = [
         images: [
           '/e7image1.jpg','/e7image2.jpg','/e7image3.jpg','/e7image4.jpg','/e7image5.jpg'
         ],
+        date: '09-09-2014'
       },
       {
         id: '550e8400-e29b-41d4-a716-446655440007',
@@ -62,7 +69,14 @@ const events = [
         images: [
             '/e8image1.jpg','/e8image2.jpg','/e8image3.jpg','/e8image4.jpg','/e8image5.jpg','/e8image6.jpg','/e8image7.jpg','/e8image8.jpg','/e8image9.jpg','/e8image10.jpg'
         ],
+        date: '09-09-2014'
       },
   ];
 
-  export {events};
+  const owner = {
+    id: '1',
+    email: 'asasd@12.com',
+    password: '12345678',
+  }
+
+  export {events, owner};

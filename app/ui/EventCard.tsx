@@ -8,9 +8,17 @@ interface EventCardProps {
   title: string;
   description: string;
   images: string[];
+  date: Date;
 }
 
-const EventCard: React.FC<EventCardProps> = ({ title, description, images }) => {
+const formatDate = (date: Date): string => {
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed
+  const year = date.getFullYear();
+  return `${day}-${month}-${year}`;
+};
+
+const EventCard: React.FC<EventCardProps> = ({ title, description, images, date }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const nextImage = () => {
@@ -65,9 +73,10 @@ const EventCard: React.FC<EventCardProps> = ({ title, description, images }) => 
         )}
       </div>
 
-      <div className="p-6">
+      <div className="p-6">        
         <h3 className="text-xl font-bold text-gray-900 mb-2">{title}</h3>
         <p className="text-gray-600">{description}</p>
+        <div className="text-sm text-gray-500 mb-0 mt-3">{formatDate(date)}</div>
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 import clsx from 'clsx';
+import path from 'path';
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -43,13 +44,14 @@ export default function Navbar() {
     { label: 'Student Life', href: '/studentLife' },
     { label: 'Events', href: '/events' },
     { label: 'Contact', href: '/contact' },
+    { label: 'login', href: '/login'},
   ];
 
   return (
     <>
             <div className="flex relative">
                 {/* Video Background */}
-                {pathname === '/' ? (
+                {pathname !== '/login' && pathname !== '/updateEvents' && (pathname === '/' ? (
                     <video
                     src="/video1.mp4"
                     className="absolute top-0 left-0 w-full h-[85vh] object-cover -z-10"
@@ -65,10 +67,10 @@ export default function Navbar() {
                         alt="background"
                         className="absolute top-0 left-0 w-full h-[85vh] object-cover -z-10"
                     />
-                )}
+                ))}
                 
                 {/* Dark Overlay for the Video Only */}
-                <div className="absolute top-0 left-0 w-full h-[85vh] bg-black opacity-30 -z-5"></div>
+                {pathname !== '/login' && pathname !== '/updateEvents' && <div className="absolute top-0 left-0 w-full h-[85vh] bg-black opacity-30 -z-5"></div>}
                 
                 {/* Centered Text */}
                 {pathname === '/' && 
@@ -86,7 +88,7 @@ export default function Navbar() {
                     </div>
 
                     {/* Center: Navigation Links with Vertical Separators */}
-                    <div className={`hidden md:block center flex space-x-6 ${isScrolled ? 'text-black' : 'text-white'}`}
+                    <div className={`hidden md:block center flex space-x-6 ${(isScrolled || pathname === '/login' || pathname === '/updateEvents') ? 'text-black' : 'text-white'}`}
                     >
                         <Link
                             href="/"
