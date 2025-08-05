@@ -11,6 +11,7 @@ export async function POST(req: Request) {
       await addEvent(formData);
       return new Response(JSON.stringify({ success: true }), { status: 200 });
     } catch (err) {
-      return new Response(JSON.stringify({ error: 'Failed to add event' }), { status: 500 });
+      console.error('❌ Internal Error at POST request of adding event:', err); // Add this
+      return new Response(JSON.stringify({ error: 'Failed to add event', details: (err as any).message }), { status: 500 });
     }
 }

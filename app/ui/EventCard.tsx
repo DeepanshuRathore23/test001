@@ -4,37 +4,40 @@ import { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 
-interface EventCardProps {
+type EventCardProps = {
   title: string;
   description: string;
   images: string[];
-  date: Date;
+  date: string;
 }
 
-const formatDate = (date: Date): string => {
+const formatDate = (dateStr: string): string => {
+  const date = new Date(dateStr); // Convert to Date here
   const day = String(date.getDate()).padStart(2, '0');
-  const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed
+  const month = String(date.getMonth() + 1).padStart(2, '0');
   const year = date.getFullYear();
   return `${day}-${month}-${year}`;
 };
 
-const EventCard: React.FC<EventCardProps> = ({ title, description, images, date }) => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+
+export default function EventCard({ title, description, images, date }: EventCardProps) {
+  const [currI, setCurrI] = useState(0);
 
   const nextImage = () => {
-    setCurrentImageIndex((prev) => (prev + 1) % images.length);
+    setCurrI((prev) => (prev + 1) % images.length);
   };
 
   const previousImage = () => {
-    setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
+    setCurrI((prev) => (prev - 1 + images.length) % images.length);
   };
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-[1.10]">
       <div className="relative w-full h-48 sm:h-64 md:h-72">
         <Image
-          src={images[currentImageIndex]}
-          alt={`${title} - Image ${currentImageIndex + 1}`}
+          src={images[currI]}
+          alt={`${title} - Image ${currI + 1}`}
           fill
           className="object-cover rounded-t-lg"
           priority
@@ -61,9 +64,9 @@ const EventCard: React.FC<EventCardProps> = ({ title, description, images, date 
               {images.map((_, index) => (
                 <button
                   key={index}
-                  onClick={() => setCurrentImageIndex(index)}
+                  // onClick={() => setCurrI(index)}
                   className={`w-2 h-2 rounded-full transition-colors ${
-                    index === currentImageIndex ? 'bg-white' : 'bg-white/50'
+                    index === currI ? 'bg-white' : 'bg-white/50'
                   }`}
                   aria-label={`Go to image ${index + 1}`}
                 />
@@ -82,4 +85,3 @@ const EventCard: React.FC<EventCardProps> = ({ title, description, images, date 
   );
 };
 
-export default EventCard;

@@ -1,6 +1,5 @@
 const events = [
     {
-      id: '550e8400-e29b-41d4-a716-446655440000',
       title: "Holi Celebration 2025",
       description: "Holi is joyfully celebrated at The Erudite World School with vibrant colors, music, and festive activities. Students and staff come together to enjoy the spirit of togetherness and happiness.  🎨🎉",
       images: [
@@ -9,7 +8,6 @@ const events = [
       date: '09-09-2014'
     },
     {
-      id: '550e8400-e29b-41d4-a716-446655440001',
       title: "Sports Day",
       description: "Sports Day at The Erudite World School is a celebration of teamwork, determination, and athletic excellence. Students participate in exciting competitions, showcasing their skills and sportsmanship. 🏆🏅",
       images: [
@@ -18,7 +16,6 @@ const events = [
       date: '09-09-2014'
     },
     {
-        id: '550e8400-e29b-41d4-a716-446655440002',
       title: "Republic Day Celebration",
       description: "Republic Day is celebrated at The Erudite World School with patriotic fervor, flag hoisting, and cultural performances. Students honor the spirit of unity and democracy through inspiring activities. 🇮🇳🎉",
       images: [
@@ -27,7 +24,6 @@ const events = [
       date: '09-09-2014'
     },
     {
-        id: '550e8400-e29b-41d4-a716-446655440003',
         title: "Rally on Guru Govind Jayanti",
         description: "At The Erudite World School, the Rally on Guru Gobind Singh Jayanti is a tribute to his wisdom, valor, and teachings. Students participate with enthusiasm, spreading messages of courage, unity, and righteousness. 🚩📖✨",
         images: [
@@ -36,7 +32,6 @@ const events = [
         date: '09-09-2014'
       },
       {
-        id: '550e8400-e29b-41d4-a716-446655440004',
         title: "Prize Distribution",
         description: "Prize Distribution Day at The Erudite World School is a celebration of excellence and achievement. Students are honored for their hard work and dedication in academics, sports, and extracurricular activities. 🏆🎉",
         images: [
@@ -45,7 +40,6 @@ const events = [
         date: '09-09-2014'
       },
       {
-        id: '550e8400-e29b-41d4-a716-446655440005',
         title: "Christmas Day Celebration 2024",
         description: "Christmas Day at The Erudite World School is celebrated with joy and festive spirit. Students enjoy carol singing, decorations, and performances, spreading warmth and happiness all around. 🎄🎅✨",
         images: [
@@ -54,16 +48,6 @@ const events = [
         date: '09-09-2014'
       },
       {
-        id: '550e8400-e29b-41d4-a716-446655440006',
-        title: "",
-        description: "",
-        images: [
-          '/e7image1.jpg','/e7image2.jpg','/e7image3.jpg','/e7image4.jpg','/e7image5.jpg'
-        ],
-        date: '09-09-2014'
-      },
-      {
-        id: '550e8400-e29b-41d4-a716-446655440007',
         title: "Educational Tour",
         description: "Educational tours at The Erudite World School provide students with immersive learning experiences beyond the classroom. These trips foster curiosity, exploration, and a deeper understanding of the world. 🌍📚✨",
         images: [

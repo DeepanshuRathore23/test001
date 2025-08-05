@@ -1,9 +1,28 @@
+'use client';
 import EventCard from "../ui/EventCard";
-import { fetchEvents } from "../lib/data";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 
-export default async function Events() {
-  const events = await fetchEvents();
+type Event = {
+  title: string;
+  description: string;
+  images: string[];
+  date: string;
+};
+
+
+export default function Events() {
+  const [events, setEvents] = useState<Event[]>([]);
+
+  useEffect(() => {
+    async function getEvents(){
+      const res = await fetch('/api/event/fetch');
+      const data = await res.json();
+      setEvents(data);
+    }
+
+    getEvents();
+  }, []);
 
   return (
     <div className="min-h-screen mt-[90vh] bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">

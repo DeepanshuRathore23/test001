@@ -1,16 +1,16 @@
 'use client'
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function EventList() {
   const [events, setEvents] = useState([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     async function getEvents(){
       const res = await fetch('/api/event/fetch');
       const data = await res.json();
       setEvents(data);
-      console.log("Data fetched is ", typeof(data));
     }
 
     getEvents();
@@ -28,18 +28,16 @@ export default function EventList() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  async function handleSubmit(e: React.FormEvent){
     e.preventDefault();
-
+    
     const formData = new FormData();
     formData.append('title', title);
     formData.append('description', description);
     formData.append('date', date);
 
-    console.log("Date at update Events at line 39 ", date);
-
-    images.forEach(img => {
-      formData.append('images', img); // Important: same name 'images' for all
+    images.forEach((img)=> {
+      formData.append('images', img);
     });
 
     const res = await fetch('/api/event/add', {
@@ -47,17 +45,24 @@ export default function EventList() {
       body: formData,
     });
 
-    if (res.ok) {
-      console.log('Event added');
-      // Optionally reset form
+    if(res.ok) {
       setImages([]);
       setTitle('');
       setDescription('');
       setDate('');
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+
+      // Refresh events list after adding
+      const updatedRes = await fetch('/api/event/fetch');
+      const updatedData = await updatedRes.json();
+      setEvents(updatedData);
     } else {
-      console.error('Failed to add event');
+      console.error("Failed to add event at upadateEvent at line 93");
     }
-  };
+  }
 
   
   return (
@@ -93,6 +98,7 @@ export default function EventList() {
         type="file"
         accept="image/*"
         onChange={handleAddImage}
+        ref={fileInputRef}
         className="border p-2 w-full"
       />
       <div className="flex flex-wrap gap-2">

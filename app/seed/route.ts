@@ -4,7 +4,12 @@ import bcrypt from 'bcrypt';
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
-await sql`DROP TABLE IF EXISTS events`;
+await sql`DROP TABLE IF EXISTS events CASCADE`
+
+const res = await sql`SELECT column_name FROM information_schema.columns WHERE table_name = 'events'
+`;
+
+console.log("Columns of events are = ", res);
 
 async function seedEvents(sqlInstance: typeof sql) {
     await sqlInstance`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
@@ -12,7 +17,7 @@ async function seedEvents(sqlInstance: typeof sql) {
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
         title VARCHAR(255) NOT NULL,
         description VARCHAR(255) NOT NULL,
-        images TEXT[],
+        images TEXT[],  
         date DATE
     )`;
 

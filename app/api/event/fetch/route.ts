@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 export async function GET() {
     try{
         const events = await fetchEvents();
-        console.log("These are the fetched events: ", events);
+        // console.log("These are the fetched events: ", events);
 
         return  NextResponse.json(events);
     } catch(error) {
