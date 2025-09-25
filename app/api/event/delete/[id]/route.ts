@@ -6,9 +6,9 @@ const sql = postgres(process.env.POSTGRES_URL!, {ssl: 'require'});
 
 export async function DELETE(
     req: Request,
-    {params}: { params: { id: string } }
+    context: any
 ) {
-    const {id} = params;
+    const {id} = context.params;
   
     try {
       await deleteEvent(id);
