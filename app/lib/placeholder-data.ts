@@ -59,8 +59,8 @@ const events = [
 
   const owner = {
     id: '1',
-    email: 'asasd@12.com',
-    password: '12345678',
+    email: 'eruditeworldschool@gmail.com',
+    password: 'Apr-2020',
   }
 
   export {events, owner};

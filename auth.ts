@@ -11,7 +11,9 @@ const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
 async function getOwner(email: string): Promise<Owner | undefined> {
   try {
     const owner = await sql<Owner[]>`
-      SELECT * FROM site_owner WHERE email = ${email}
+      SELECT id, email, password 
+      FROM site_owner 
+      WHERE email = ${email}
     `;
     return owner[0];
   } catch (err) {
@@ -36,6 +38,7 @@ export const { auth, signIn, signOut } = NextAuth({
         if (!owner) return null;
 
         const passwordsMatch = await bcrypt.compare(password, owner.password);
+        console.log(owner.password);
         if (passwordsMatch) return owner;
 
         return null;

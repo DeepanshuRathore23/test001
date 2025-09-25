@@ -6,7 +6,7 @@ const sql = postgres(process.env.POSTGRES_URL!, {ssl: 'require'});
 
 export async function fetchEvents(): Promise<Event[]> {
     try{
-        const data = await sql<Event[]>`SELECT id, title, description, images, date FROM events`;
+        const data = await sql.unsafe<Event[]>(`SELECT * FROM events`);
         // console.log("Data is of type ", Array.isArray(data));  // array hai verify krlia hai
         // console.log(data);
         return data;
@@ -14,6 +14,14 @@ export async function fetchEvents(): Promise<Event[]> {
         console.error("Database error: ", err);
         return [];
     }
+}
+
+export async function deleteEvent(id: string) {
+  try{
+    await sql`DELETE FROM events WHERE id = ${id}`;
+  } catch(error) {
+    console.error("Error adding event: ", error);
+  }
 }
 
 export async function addEvent(formData: FormData) {
@@ -41,14 +49,6 @@ export async function addEvent(formData: FormData) {
   
       imageUrls.push((result as any).secure_url);
     }
-
-    // console.log("size of imageUrls = ", imageUrls.length)
-
-    // imageUrls.forEach((img)=> {
-    //   console.log(img);
-    // })
-
-    // console.log(typeof(imageUrls[0]));
 
   try{
     await sql`INSERT INTO events(title, description, images, date)

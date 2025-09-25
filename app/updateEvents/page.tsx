@@ -1,9 +1,15 @@
 'use client'
 
-import { useState, useEffect, useRef } from "react";
+import { setDefaultAutoSelectFamily } from "net";
+import React, { useState, useEffect, useRef } from "react";
 
 export default function EventList() {
   const [events, setEvents] = useState([]);
+  const [showPopup, setShowPopup]  = useState(false);
+  const [showDeletePopup, setShowDeletePopup]  = useState(false);
+  const [addLoading, setAddLoading] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -30,6 +36,7 @@ export default function EventList() {
 
   async function handleSubmit(e: React.FormEvent){
     e.preventDefault();
+    setAddLoading(true);
     
     const formData = new FormData();
     formData.append('title', title);
@@ -54,6 +61,10 @@ export default function EventList() {
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }
+      
+       // ✅ Show popup for 2s
+       setShowPopup(true);
+       setTimeout(() => setShowPopup(false), 2000);
 
       // Refresh events list after adding
       const updatedRes = await fetch('/api/event/fetch');
@@ -61,6 +72,26 @@ export default function EventList() {
       setEvents(updatedData);
     } else {
       console.error("Failed to add event at upadateEvent at line 93");
+    }
+
+    setAddLoading(false);
+  }
+
+  async function handleEventDelete(id: string) {
+    try{
+      setDeletingId(id);
+      const res = await fetch(`api/event/delete/${id}`, {
+        method: "DELETE"
+      });
+
+      if(res.ok) {
+        setEvents((prev) => prev.filter((event: any) => event.id !== id));
+      } else {
+        console.error("Failed to delete event: ", id);
+      }
+      setDeletingId(null);
+    } catch(error) {
+      console.error("Error deleteing event");
     }
   }
 
@@ -109,9 +140,19 @@ export default function EventList() {
 
       <button
         type="submit"
-        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        disabled={addLoading}
+        className={`relative overflow-hidden px-4 py-2 rounded text-white font-medium 
+          ${addLoading ? "bg-green-400 cursor-not-allowed" : "bg-green-600 hover:bg-blue-700"}
+        `}
       >
-        Add Event
+        {addLoading ? "Adding Event..." : "Add Event"}
+
+        {/* Shimmer overlay only when submitting */}
+        {addLoading && (
+          <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent 
+            animate-shimmer" />
+        )}
+
       </button>
     </form>
 
@@ -124,19 +165,42 @@ export default function EventList() {
               <h3 className="font-semibold">{event.title}</h3>
               <p className="text-sm text-gray-600">{event.description}</p>
             </div>
-            <div>
-              <form action={`/delete-event/${event.id}`} method="POST">
-                <button
-                  type="submit"
-                  className="bg-red-600 text-white px-3 py-1 rounded-xl"
-                >
-                  Delete
-                </button>
-              </form>
+
+            <div className="relative inline-block">
+              <button
+                onClick={() => handleEventDelete(event.id)}
+                disabled = {deletingId == event.id}
+                className={`text-white px-3 py-1 rounded-xl
+                  ${deletingId == event.id ? "bg-red-600 cursor-not-allowed" : "bg-red-600"}
+                  `}
+              >
+                {deletingId == event.id ? "Deleting Event..." : "Delete Event"}
+
+                {/* Shimmer overlay only when deleting */}
+                {deletingId == event.id && (
+                  <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent 
+                    animate-shimmer" />
+                )}
+              </button>  
             </div>
+
           </li>
         ))}
       </ul>
+
+      {/* ✅ Popup shown only when event is added */}
+      {showPopup && (
+        <div className="fixed top-5 right-5 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg animate-fade-in-out">
+          ✅ Event added successfully!
+        </div>
+      )}
+
+      {/* ✅ Delete Popup shown only when event is deleted */}
+      {showDeletePopup && (
+        <div className="fixed top-5 right-5 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg animate-fade-in-out">
+          ✅ Event Deleted successfully!
+        </div>
+      )}
 
     </div>
   );
