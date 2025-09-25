@@ -1,10 +1,22 @@
+'use client'
+
 import EventCard from "../ui/EventCard";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import { fetchEvents } from "../lib/data";
 import type { Event } from "../lib/definitions";
 
-export default async  function Events() {
-  const events: Event[] = await fetchEvents();
+export default function Events() {
+  const [events, setEvents] = useState<Event[]>([])
+
+  useEffect(() => {
+    async function getEvents() {
+      const res = await fetch('/api/event/fetch');
+      const data = await res.json();
+      setEvents(data);
+    }
+    getEvents();
+  }, []);
 
   const sortedEvents = [...events].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
